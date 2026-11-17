@@ -2132,7 +2132,7 @@ OUPUT_EXAMPLE
         $methodSynopsis->appendChild(new DOMText("\n   "));
 
         foreach ($this->attributes as $attribute) {
-            $modifier = $doc->createElement("modifier", "#[\\" . $attribute->class . "]");
+            $modifier = $doc->createElement("modifier", (string) $attribute);
             $modifier->setAttribute("role", "attribute");
             $methodSynopsis->appendChild($modifier);
             $methodSynopsis->appendChild(new DOMText("\n   "));
@@ -2289,6 +2289,7 @@ class EvaluatedValue
         };
 
         $nodeTraverser = new PhpParser\NodeTraverser;
+        $nodeTraverser->addVisitor(new PhpParser\NodeVisitor\CloningVisitor);
         $nodeTraverser->addVisitor($visitor);
         $expr = $nodeTraverser->traverse([$expr])[0];
 
@@ -4063,7 +4064,7 @@ class ClassInfo {
             $ooElement->appendChild(new DOMText("\n$indentation "));
         } elseif ($isMainClass) {
             foreach ($classInfo->attributes as $attribute) {
-                $modifier = $doc->createElement("modifier", "#[\\" . $attribute->class . "]");
+                $modifier = $doc->createElement("modifier", (string) $attribute);
                 $modifier->setAttribute("role", "attribute");
                 $ooElement->appendChild($modifier);
                 $ooElement->appendChild(new DOMText("\n$indentation "));
